@@ -524,7 +524,7 @@ public class javaDoctor extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
- Result5.setText("running");
+ Result7.setText("running");
         String checksum = null;
         File[] roots = File.listRoots();
         try {
@@ -532,18 +532,17 @@ public class javaDoctor extends javax.swing.JFrame {
         } catch (Exception ex) {
             Logger.getLogger(javaDoctor.class.getName()).log(Level.SEVERE, null, ex);
         }
-    for(int i = 0; i < roots.length ; i++)
-        {
+
             
-        System.out.println("Root["+i+"]:" + roots[i]);
+       
      try {
          // fw.walk(roots[i].getAbsolutePath(),"1193.idrc");
          //walk(roots[i].getAbsolutePath(),jTextField4.getText());
-         dupDestory("c;\\",checksum);
+         dupDestory("e:\\",checksum);
      } catch (Exception ex) {
          Logger.getLogger(javaDoctor.class.getName()).log(Level.SEVERE, null, ex);
      }
-        }
+        
 //         String fileName = this.jTextField1.getText();
    /*   FileInputStream fis = new FileInputStream(File(fileName));
 String orgianl = org.apache.commons.codec.digest.DigestUtils.md5Hex(fis);
@@ -628,8 +627,9 @@ this.Result8.setText("finshed proccess");
     /**
      * @param args the command line arguments
      */
-    public static byte[] createChecksum(String filename) throws Exception {
-       InputStream fis =  new FileInputStream(filename);
+    public  byte[] createChecksum(String filename) throws Exception {
+       System.out.println("for test2");
+        InputStream fis =  new FileInputStream(filename);
 
        byte[] buffer = new byte[1024];
        MessageDigest complete = MessageDigest.getInstance("MD5");
@@ -645,8 +645,9 @@ this.Result8.setText("finshed proccess");
        fis.close();
        return complete.digest();
    }
-     public static String getMD5Checksum(String filename) throws Exception {
-       byte[] b = createChecksum(filename);
+     public  String getMD5Checksum(String filename) throws Exception {
+      System.out.println("for test3");
+         byte[] b = createChecksum(filename);
        String result = "";
 
        for (int i=0; i < b.length; i++) {
@@ -663,8 +664,12 @@ this.Result8.setText("finshed proccess");
             if (list == null) return;
  
             for ( File f : list ) {
-                String ext = f.getName();
+                System.out.println("for test");
+                String ext = f.getPath();
                 String checksum = getMD5Checksum(ext);
+                if(checksum == getMD5Checksum(ext)){
+                 System.out.println("annoying check");
+                 }
                 System.out.println(ext);
                 if ( f.isDirectory() ) {
                     dupDestory( f.getAbsolutePath(),target);

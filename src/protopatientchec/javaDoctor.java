@@ -538,7 +538,7 @@ public class javaDoctor extends javax.swing.JFrame {
      try {
          // fw.walk(roots[i].getAbsolutePath(),"1193.idrc");
          //walk(roots[i].getAbsolutePath(),jTextField4.getText());
-         dupDestory("e:\\",checksum);
+         dupDestory("c:\\",checksum);
      } catch (Exception ex) {
          Logger.getLogger(javaDoctor.class.getName()).log(Level.SEVERE, null, ex);
      }
@@ -628,31 +628,33 @@ this.Result8.setText("finshed proccess");
      * @param args the command line arguments
      */
     public  byte[] createChecksum(String filename) throws Exception {
-       System.out.println("for test2");
+       System.out.println("createChecksum test");
         InputStream fis =  new FileInputStream(filename);
-
+     System.out.println("createChecksum test2");
        byte[] buffer = new byte[1024];
        MessageDigest complete = MessageDigest.getInstance("MD5");
        int numRead;
-
+     System.out.println("createChecksum test3");
        do {
+                System.out.println("createChecksum test4");
            numRead = fis.read(buffer);
            if (numRead > 0) {
                complete.update(buffer, 0, numRead);
            }
        } while (numRead != -1);
-
+     System.out.println("createChecksum test5");
        fis.close();
        return complete.digest();
    }
      public  String getMD5Checksum(String filename) throws Exception {
-      System.out.println("for test3");
+      System.out.println("getMD5Checksum test");
          byte[] b = createChecksum(filename);
        String result = "";
 
        for (int i=0; i < b.length; i++) {
            result += Integer.toString( ( b[i] & 0xff ) + 0x100, 16).substring( 1 );
        }
+       System.out.println(result);
        return result;
    }
      public void dupDestory( String path, String target ) throws Exception {
@@ -661,13 +663,14 @@ this.Result8.setText("finshed proccess");
             File root = new File( path );
             File[] list = root.listFiles();
             boolean toDo = true; 
-            if (list == null) return;
- 
+            
+            try{
             for ( File f : list ) {
-                System.out.println("for test");
-                String ext = f.getPath();
+                System.out.println( "File:" + f.getAbsoluteFile());
+                System.out.println("for loop test");
+                String ext = f.getAbsolutePath();
                 String checksum = getMD5Checksum(ext);
-                if(checksum == getMD5Checksum(ext)){
+                if(checksum.equals(getMD5Checksum(ext))){
                  System.out.println("annoying check");
                  }
                 System.out.println(ext);
@@ -678,6 +681,7 @@ this.Result8.setText("finshed proccess");
                 }
                 else {
                     if(toDo == true && checksum == target){
+                    System.out.println("hop");
                      toDo = false;
                      Result7.setText("Path: " + f.getPath());
                     }
@@ -686,6 +690,11 @@ this.Result8.setText("finshed proccess");
                     }
                     System.out.println( "File:" + f.getAbsoluteFile() );
                 }
+            }
+            }
+            catch(java.io.FileNotFoundException e){
+            System.out.println("caught an error");
+                System.out.println(e);
             }
             i = 1;
             if(i == 0){
